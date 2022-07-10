@@ -159,7 +159,7 @@ class Player extends Entity {
 
 class Platform extends Entity {
     constructor(player, canvas, x, y) {
-        super(canvas, x, y, 200, 10, 'black');
+        super(canvas, x, y, getRandomInt(20, 500), 10, 'black');
         this.player = player;
     }
 
@@ -171,8 +171,6 @@ class Platform extends Entity {
     update() {
         this.x += this.xV;
         this.y += this.yV;
-
-        console.log('Platform velocity y: ', this.yV);
 
         this.updateXVelocity();
 
@@ -196,6 +194,19 @@ class Platform extends Entity {
 }
 
 const player = new Player(canvas);
+
+for (let i = 0; i < 10000; i++) {
+    let randY = getRandomInt(0, 1200);
+    randY = randY - randY % 50;
+    player.platforms.push(new Platform(player, canvas, getRandomInt(-100000, 100000), randY));
+}
+
+function getRandomInt(min, max) {
+    min = Math.ceil(min);
+    max = Math.floor(max);
+    return Math.floor(Math.random() * (max - min)) + min;
+}
+
 player.platforms.push(new Platform(player, canvas, 1200, 100));
 player.platforms.push(new Platform(player, canvas, 1000, 200));
 player.platforms.push(new Platform(player, canvas, 800, 300));
